@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+@font-face {
+  font-family: 'S-CoreDream-4Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'S-CoreDream-5Medium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'S-CoreDream-6Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  font-family: 'Nanum Gothic', sans-serif;
+  background-color: rgb(243, 244, 246);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+#logo {
+  text-align: center;
+  max-width: 414px;
+  margin: auto;
+}
+
+#logo img {
+  width: 70%;
+}
+/* 기본 로그 기록 버튼 스타일 (두 배 크기, 녹색 계열) */
+#log-control button {
+  background: linear-gradient(145deg, #4CAF50, #43a047);
+  color: #fff;
+  border: none;
+  padding: 15px 30px !important;
+  font-size: 22px !important;
+  border-radius: 12px !important;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7);
+  transition: all 0.2s ease-in-out;
+}
+
+#log-control button:hover {
+  background: linear-gradient(145deg, #43a047, #388e3c);
+  box-shadow: 6px 6px 12px rgba(0,0,0,0.1), -6px -6px 12px rgba(255,255,255,0.7);
+}
+
+#log-control button:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+/* 정지 버튼일 때 (토글된 상태, 빨간색 계열) */
+#log-control button.stop {
+  background: linear-gradient(145deg, #E53935, #D32F2F) !important;
+}
+
+div#container, div#header {
+  padding: 1rem;
+  padding-top: 0rem;
+  display: flex;
+  max-width: none;
+  flex-wrap: wrap;
+}
+div#container {
+  justify-content: space-evenly;
+}
+div#header {
+  padding-top: 1rem;
+  padding-bottom: 0rem;
+  justify-content: space-between;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  background-color: rgb(243, 244, 246);
+  padding: 1rem 0rem;
+  z-index: 1000;
+}
+
+div.status {
+  display: inline-block;
+  text-align: center;
+}
+
+div.status.left {
+  margin-right: 2rem;
+}
+
+div.status.right {
+  margin-left: 2rem;
+}
+
+div.fault-indicator {
+  width: 100%;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+div.status.middle {
+  width: 23%;
+}
+
+div.status.middle.narrow {
+  width: 18%;
+}
+
+div.status.middle.wide {
+  width: 33%;
+}
+
+div.status.middle i {
+  font-size: 1.5rem!important;
+}
+
+div.status.failsafe {
+  width: 13%;
+}
+
+div.status.failsafe.wide {
+  margin: 0px 1.8rem;
+}
+
+div.status.failsafe i {
+  font-size: 1.75rem!important;
+}
+
+div.status div.failsafe-help {
+  transform: scale(.5);
+  margin-left: -.5rem;
+  margin-top: -.2rem;
+}
+
+div.status i {
+  font-size: 1.75rem;
+}
+
+div.status div.text {
+  font-weight: bold;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  color: rgb(25,35,41);
+}
+
+
+article {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  min-width: 320px;
+  width: 380px;
+  max-width: 414px;
+}
+
+article h1 {
+  font-size: 1.75rem;
+  margin: 0px;
+  color: rgb(59,130,246);
+}
+
+article h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+article th.param-data h2 {
+  margin-top: -.5rem;
+}
+
+article .content {
+  padding-left: 1rem;
+}
+
+div.toggle_graph label {
+  font-size: .4rem;
+  width: 3rem!important;
+  margin-right: -.3rem;
+  margin-top: .3rem;
+  display: inline-block!important;
+}
+
+div.toggle_graph label.double {
+  width: 6rem!important;
+}
+
+table.param {
+  margin-top: 1rem;
+  width: -webkit-fill-available;
+}
+
+table.param .graph {
+  display: none;
+}
+
+table.param .param-label {
+  color: rgb(65,75,81);
+  text-align: left;
+  vertical-align: baseline;
+  width: 8.3rem;
+}
+
+table.param .param-data h2 {
+  text-align: left;
+  font-family: 'S-CoreDream-6Bold';
+  font-size: 3rem;
+}
+
+table.param .param-unit {
+  font-size: 1rem;
+}
+
+
+table.param .param-subvalue {
+  font-size: 1.75rem;
+}
+
+canvas.graph {
+  display: none;
+  margin-right: 1rem;
+}
+
+table.settings {
+  width: 100%;
+}
+
+table.settings span.btn {
+  width: -webkit-fill-available;
+  height: 2rem;
+  line-height: 2.2rem;
+  font-family: 'S-CoreDream-5Medium';
+}
+
+div.swal2-html-container {
+  word-break: keep-all;
+  line-height: 1.5rem;
+}
+
+.swal2-two-buttons {
+  margin-right: 2rem!important;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(175, 184, 193, 0.2);
+  border-radius: 6px;
+}
+
+table.dataTable td {
+  font-size: 1rem;
+}
+
+div.failsafe-desc {
+  font-size: 1rem;
+  text-align: left;
+}
+
+ul {
+  margin-top: 0rem;
+  line-height: 1.75rem;;
+}
+
+/* #speedometer {
+  display: block;
+  margin: auto;
+  border: none; 
+} */
+
+.param-graph {
+  margin-top: -50px; /* 필요에 따라 값을 조정하여 공백을 줄임 */
+  height: 10px; /* 캔버스 높이를 적절히 조정 */
+}
+
+.speedometer-container {
+  margin-bottom: -120px; /* 필요에 따라 값을 조정하여 아래 공백을 줄임 */
+}
+#speedometer {
+  display: block;
+  margin: auto;
+  border: none;
+  padding-bottom: 0; /* 캔버스 아래의 공백 제거 */
+}
+.param-data {
+  margin-top: -30px; /* 필요에 따라 값을 조정하여 텍스트를 위로 끌어올림 */
+}
