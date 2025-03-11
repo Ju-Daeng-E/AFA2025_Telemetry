@@ -1,7 +1,9 @@
 # A-FA Telemetry System
 
 A-FA Telemetry System은 Node.js (Express + Socket.IO), Nginx를 이용해 원격 계측(텔레메트리) 데이터 수집, 그리고 로그 기록 및 리뷰를 제공하는 통합 시스템입니다.
+
 사이트 바로가기 -> https://afa2025.ddns.net
+
 ---
 
 ## 주요 기능
