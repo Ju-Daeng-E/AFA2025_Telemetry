@@ -1,130 +1,45 @@
-# monolith
-![image](/web/assets/logo/wide.jpg)
+# A-FA Telemetry System
 
-<div align="center">
-<strong>
-<samp>
+A-FA Telemetry System은 Node.js (Express + Socket.IO), Nginx를 이용해 원격 계측(텔레메트리) 데이터 수집, 그리고 로그 기록 및 리뷰를 제공하는 통합 시스템입니다.
 
-[English](README.md) · [한국어](README_KO.md)
+사이트 바로가기 -> https://afa2025.ddns.net
 
-</samp>
-</strong>
-</div>
+---
 
-Monolith is an open-source DIY datalogging platform for the Student Formula and Baja.
+## 주요 기능
 
-Build your own datalogger and use the real-time telemetry and data analysis tools with ease!
+- **원격 계측 (Telemetry)**
+  - ESP32, ECU 등에서 전송한 데이터를 Node.js 서버가 실시간으로 수신합니다.
+  - Socket.IO를 통해 클라이언트에 데이터를 중계하며, 로그 파일로 기록할 수 있습니다.
 
-### Main Features
-* Various types of data supported, including CAN, acceleration, GPS, digital/analog signals and wheel speeds
-* Micro SD card support
-* Real-time telemetry
-* Real world time tracking via RTC
-* Web based data visualization and analysis tools
+- **로그 기록 및 리뷰**
+  - “로그 기록 시작” 버튼을 통해 지정한 파일명으로 `separated_logs/` 폴더에 로그를 저장합니다.
+  - “로그 기록 정지” 버튼으로 로그 기록을 중지합니다.
+  - 리뷰 페이지에서는 업로드된 로그 파일 목록을 불러와, 각 줄의 JSON 데이터를 파싱하여 그래프, 표, 지도 등으로 시각화합니다.
+  - JSON 및 CSV 파일 다운로드 기능을 제공합니다.
 
-### [Documentation](https://github.com/luftaquila/monolith/wiki)
+- **Nginx Reverse Proxy**
+  - Nginx는 80(HTTP) 및 443(HTTPS) 포트를 통해 SSL 처리를 하고, 내부적으로 Node.js 서버(예: 7777 포트)로 요청을 프록시합니다.
+  - API, Socket.IO 등 필요한 경로를 프록시하여 통합 환경을 구성합니다.
 
-Monolith consists of `TMA-1` datalogger, `TMA-2` telemetry monitor and `TMA-3` data analysis tools.
+## 사용 방법
 
-<br>
-
-## TMA-1 Datalogger
-TMA-1 is an onboard device that gathers data from the car. It can record the following data:
-
-* CAN 2.0(A/B) bus traffic
-* 8-channel digital input signals
-* 4-channel analog input signals
-* 4-channel external wheel speed sensors (digital pulse period)
-* 3-axis ±4g acceleration (ADXL345)
-* GPS informations (NEO-6/7M)
-* Supply voltage(LV) and internal CPU temperature
-* Real world time(RTC)
-
-Refer to the [TMA‐1 Features and Usage Guide](https://github.com/luftaquila/monolith/wiki/%5BEN%5D-TMA%E2%80%901-Features-and-Usage-Guide) for detailed explanations about each feature.
-
-### 1-1. TMA-1 Do It Yourself!
-TMA-1 is a DIY datalogger that each user buys components and builds their own device. It is designed with commercial modules and through-hole components for easy self build.
-
-Required components and build instructions are described in the [TMA-1 DIY Guide](https://github.com/luftaquila/monolith/wiki/%5BEN%5D-TMA%E2%80%901-DIY-Guide).
-
-<img src='https://github.com/luftaquila/monolith/assets/17094868/062e846b-619e-4b5e-a784-63690c4cd73f' style='width: 700px'>
-
-### 1-2. TMA-1 Configuration Tool
-This is a GUI tool that builds and uploads the firmware to the TMA-1 with configured features.
-
-With this tool, you can activate features in the datalogger, synchronize TMA-1's clock to your computer time, and configure the networks for the telemetry.
-
-For the detailed information, please refer to the [TMA-1 Configuration Tool Guide](https://github.com/luftaquila/monolith/wiki/%5BEN%5D-TMA%E2%80%901-Configuration-Tool-Guide).
-
-<img src='https://github.com/luftaquila/monolith/assets/17094868/2350a23e-c4a7-4766-830a-d4313ee9fbee' width='700px'>
-
-<br><br>
-
-## TMA-2 Telemetry monitor
-TMA-2 consists of the telemetry server that TMA-1 communicates with, and the web client for real-time data monitoring.
-
-### Server
-Users do not need to set up the server individually, except in case you want your own server. TMA-1 uses the default monolith server (monolith.luftaquila.io) for the telemetry.
-
-> The default TMA-2 server is available to the approved users only.<br>
-> There are no additional fees for registration. Just send me a school and team name, your desired car ID and key to mail@luftaquila.io and that's it.
-
-If you want to self-host your own server, follow the [TMA-2 Server Setup Guide](https://github.com/luftaquila/monolith/wiki/%5BEN%5D-TMA%E2%80%902-Server-Setup-Guide).
-
-### Client
-Real-time monitoring client is served at https://monolith.luftaquila.io/live.
-
-Each user can set up their own UI with their preferences. It also supports the UI export and import features.
-
-For the detailed information, please refer to the [TMA‐2 Client Usage Guide](https://github.com/luftaquila/monolith/wiki/%5BEN%5D-TMA%E2%80%902-Client-Usage-Guide).
-
-<img src='https://github.com/luftaquila/monolith/assets/17094868/5ba95b27-f435-4d70-a965-757269b4843e'>
-
-<br><br>
-
-## TMA-3 Log Translator and Data Analysis Tool
-TMA-1 datalogger stores the log in the SD card in a binary format, according to the predefined [protocol](https://github.com/luftaquila/monolith/wiki/%5BEN%5D-Log-Protocol).
-
-TMA-3 is a set of tools that can translate binary logs to human-readable format(JSON/CSV) and visualize the collected data into graphs and a map.
-
-All these features are web application services that can be instantly accessed at https://monolith.luftaquila.io.
-
-For the detailed information, please refer to the [TMA‐3 Data Analysis Tool Guide](https://github.com/luftaquila/monolith/wiki/%5BEN%5D-TMA%E2%80%903-Data-Analysis-Tool-Guide).
-
-<img src='https://github.com/luftaquila/monolith/assets/17094868/7734849b-b7c6-4fe3-9ab6-27e2969be806' width='700px'>
-
-<br><br>
-
-## Others
-The name of the project was inspired by Arthur C. Clark's novel *2001: A Space Odyssey*.
-
-Monolith received the Gold Award in the *2023 KSAE KSAE Baja/Formula/EV* Technology Idea section and the Best Award in the *2022-2 Ajou University SW Convergence Challenge*.
-
-<img src='https://github.com/luftaquila/monolith/assets/17094868/53384153-dbec-466c-b6d7-5401e73fa48c' style='width: 400px'>
-
-<br><br>
-
-## Sponsors
-<img src='https://github.com/luftaquila/monolith/assets/17094868/2a893442-4d76-4828-a763-64865f9e481f' width='200px'>
-
-Prototype PCB of the TMA-1 was sponsored by [PCBWay](https://www.pcbway.com/).
-
-<br>
-
-## LICENSE
+### 1. 원격 계측 디바이스 연결
+- **디바이스** (예: ESP32, ECU 등)는 아래 URL을 통해 소켓 연결을 수행합니다:
 ```
-"THE BEERWARE LICENSE" (Revision 42):
-LUFT-AQUILA wrote this project. As long as you retain this notice,
-you can do whatever you want with this stuff. If we meet someday,
-and you think this stuff is worth it, you can buy me a beer in return.
+wss://afa2025.ddns.net/socket.io/?channel=afa&key=1234&device=true
 ```
 
-<br>
+- 디바이스는 `tlog` 이벤트로 데이터를 전송하며, 서버는 이를 실시간으로 클라이언트에 중계하고 로그 파일로 기록합니다.
 
-<hr>
+### 2. 실시간 모니터링 페이지
+- 브라우저에서 **`https://afa2025.ddns.net/live.html`** 에 접속하여 실시간 텔레메트리 데이터를 확인합니다.
+- 페이지 내 “로그 기록 시작” 및 “로그 기록 정지” 버튼을 통해 별도의 로그 파일 기록을 제어할 수 있습니다.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=luftaquila/monolith&type=Date&theme=dark" />
-  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=luftaquila/monolith&type=Date" />
-  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=star-history/star-history&type=Date" />
-</picture>
+### 3. 로그 리뷰 페이지
+- **`https://afa2025.ddns.net/review/`** 페이지에 접속하면, 서버에서 `/api/logfiles` 엔드포인트를 통해 저장된 로그 파일 목록이 불러와집니다.
+- 사용자가 로그 파일을 선택한 후 “불러오기” 버튼을 누르면, 파일의 각 줄(JSON 형식)을 파싱하여 그래프, 표, 지도 등으로 데이터를 시각화합니다.
+- 또한, JSON 및 CSV 형식으로 로그 데이터를 다운로드할 수 있는 기능이 제공됩니다.
+
+
+
