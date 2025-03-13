@@ -520,7 +520,10 @@ function signed(value, bit) {
   return value > Math.pow(2, bit - 1) - 1 ? value - Math.pow(2, bit) : value;
 }
 
-exports.LOG_LEVEL = LOG_LEVEL;
-exports.LOG_SOURCE = LOG_SOURCE;
-exports.LOG_KEY= LOG_KEY;
-exports.translate = translate;
+// Node.js 환경인지 확인 후 exports 사용
+if (typeof exports !== "undefined") {
+  exports.LOG_LEVEL = LOG_LEVEL;
+  exports.LOG_SOURCE = LOG_SOURCE;
+  exports.LOG_KEY = LOG_KEY;
+  exports.translate = translate;
+}

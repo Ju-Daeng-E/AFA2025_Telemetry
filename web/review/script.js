@@ -79,10 +79,14 @@ function init_viewer(log) {
   let gps = [];
 
   for (let data of log) {
-    if (data.source == 'GPS' && data.key == 'GPS_POS') {
-      gps.push(new kakao.maps.LatLng(data.parsed.lat, data.parsed.lon));
-    } else if (data.parsed !== null && !keylist.find(x => x.key == data.key)) {
-      keylist.push(data);
+    let parsedData = data.parsed || (data.data && data.data.parsed) || { value: data.value || (data.data && data.data.value) };
+    let source = data.source || (data.data && data.data.source) || "UNKNOWN";
+    let key = data.key || (data.data && data.data.key) || "UNKNOWN";
+
+    if (source == 'GPS' && key == 'GPS_POS' && parsedData.lat && parsedData.lon) {
+      gps.push(new kakao.maps.LatLng(parsedData.lat, parsedData.lon));
+    } else if (parsedData !== null && !keylist.find(x => x.key == key && x.source == source)) {
+      keylist.push({ source: source, key: key, parsed: parsedData });
     }
   }
 
@@ -109,6 +113,7 @@ function init_viewer(log) {
     }
   }
 }
+
 
 
 /************************************************************************************
@@ -414,10 +419,19 @@ function add_graph_data(data) {
 
   switch (data.type) {
     case 'standard': {
+      // data.data 형식: "ACC/ACC_DATA/x" 등
       const [source, key, param] = data.data.split('/');
-      const arr = log.filter(x => x.key == key);
+      // 로그 객체의 data 객체 내부에서 필터링
+      const arr = log.filter(x => 
+        x.data && x.data.key === key && x.data.source === source
+      );
 
-      let dataset = arr.map(k => { return { x: new Date(k.datetime).getTime(), y: k.parsed[param] * data.scale } });
+      let dataset = arr.map(k => { 
+        return { 
+          x: new Date(k.timestamp).getTime(), // top-level timestamp 사용 ("2024-09-28 16:19:10.388")
+          y: k.data.parsed[param] * data.scale 
+        }; 
+      });
 
       chart.data.datasets.push({
         label: data.data.replace(/\/.*\//, ' / '),
@@ -427,9 +441,17 @@ function add_graph_data(data) {
     }
 
     case 'can': {
-      const arr = log.filter(x => (x.source === 'CAN' && x.key === data.data.id ));
+      // CAN 데이터의 경우 data.data.id 를 사용하여 필터링
+      const arr = log.filter(x => 
+        x.data && x.data.source === 'CAN' && x.data.key === data.data.id
+      );
 
-      let dataset = arr.map(k => { return { x: new Date(k.datetime).getTime(), y: parse_CAN({ type: data.data.type, info: data.data }, k.raw) * data.scale  } });
+      let dataset = arr.map(k => { 
+        return { 
+          x: new Date(k.timestamp).getTime(),
+          y: parse_CAN({ type: data.data.type, info: data.data }, k.data.raw) * data.scale  
+        }; 
+      });
 
       chart.data.datasets.push({
         label: data.data.label,
@@ -443,14 +465,16 @@ function add_graph_data(data) {
   }
 
   chart.update();
-
   $(`#graph_canvas_${data.target}`).removeClass('canvas_disabled');
 }
-
 
 $(document.body).on('keyup', '#can_data_id', e => {
   $('#can_data_id_hex').text(Number($('#can_data_id').val()).toString(16).toUpperCase());
 });
+
+
+
+
 
 
 /************************************************************************************
